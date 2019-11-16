@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="25" height="20" tilewidth="128" tileheight="128" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="my_tiles" tilewidth="770" tileheight="433" tilecount="1" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image width="770" height="433" source="../../Pictures/Final Project CISC108 Game Pictures/background.webp"/>
+  </tile>
+ </tileset>
+ <layer id="1" name="Platforms" width="25" height="20">
+  <data encoding="base64" compression="zlib">
+   eJy9lEEOACEIA/H/n96TF9JAGcmacFChIxKI0OsIe1lKL2s6PlP9ziJ2GVWMy3DfoM5dhuO7wejy38xjWhfCcGO2GVXdCcPZUwapwbQ/3L4ic0sxurlFGNO+oIzq/g9G/k/KcDhE/8ZnHTLvO4Y7EynnA5smAKA=
+  </data>
+ </layer>
+</map>
