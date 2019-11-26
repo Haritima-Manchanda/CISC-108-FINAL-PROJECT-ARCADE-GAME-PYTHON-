@@ -5,13 +5,27 @@ WINDOW_HEIGHT=1000
 GAME_TITLE="X COSMOS"
 BULLET_SPEED=5
 
+class LEVEL1(arcade.Sprite):
+    def update(self):
+        self.center_x+=10
+        if self.center_x>1000:
+            self.center_x=0
+
 class X_COSMOS(arcade.Window):
     def __init__(self):
         super().__init__(WINDOW_WIDTH,WINDOW_HEIGHT,GAME_TITLE)
         self.score=0
-        self.level=0
+        self.level=1
         self.bullet_list=self.collision_list=None
         self.player_list=self.bubble_list=self.physics_engine=None
+
+    def level_1(self):
+        self.bubble_list = arcade.SpriteList()
+        for i in range(50):
+            self.bubble_sprite = arcade.Sprite("images/Coin.png", 0.40)
+            self.bubble_sprite.center_x = random.randrange(50, 950, 30)
+            self.bubble_sprite.center_y = 600
+            self.bubble_list.append(self.bubble_sprite)
 
     def setup(self):
         arcade.set_background_color(arcade.color.BLACK)
@@ -21,13 +35,8 @@ class X_COSMOS(arcade.Window):
         self.player_sprite.center_y =250
         self.player_list.append(self.player_sprite)
 
-        self.bubble_list=arcade.SpriteList()
-        for i in range(50):
-            self.bubble_sprite=arcade.Sprite("images/Coin.png",0.40)
-            self.bubble_sprite.center_x=random.randrange(50,950,30)
-            self.bubble_sprite.center_y=600
-            self.bubble_list.append(self.bubble_sprite)
         self.bullet_list=arcade.SpriteList()
+        self.level_1()
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.bubble_list)
     def on_draw(self):
         arcade.start_render()
@@ -36,6 +45,8 @@ class X_COSMOS(arcade.Window):
         self.bullet_list.draw()
         arcade.draw_text(str("SCORE: "),700, 900, arcade.color.WHITE, 40)
         arcade.draw_text(str(self.score),900, 900, arcade.color.WHITE, 40)
+        arcade.draw_text(str("LEVEL: "), 700, 800, arcade.color.WHITE, 40)
+        arcade.draw_text(str(self.level), 900, 800, arcade.color.WHITE, 40)
 
     def on_key_press(self,key,modifiers):
         if key==arcade.key.RIGHT:
