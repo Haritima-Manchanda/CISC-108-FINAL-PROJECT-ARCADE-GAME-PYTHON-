@@ -4,13 +4,25 @@ WINDOW_WIDTH=1000
 WINDOW_HEIGHT=1000
 GAME_TITLE="X COSMOS"
 BULLET_SPEED=5
+BUBBLE_MOVEMENT=2
 
 class LEVEL2(arcade.Sprite):
     def update(self):
-        self.center_x+=2
+        self.center_x+=BUBBLE_MOVEMENT
         if self.center_x>1000:
             self.center_x=0
 
+class LEVEL3(arcade.Sprite):
+    def update(self):
+        #self.center_y=600
+        self.center_x+=BUBBLE_MOVEMENT
+        for i in range(2):
+            if self.center_x==900:
+                self.center_y-=100
+                self.center_x=-BUBBLE_MOVEMENT
+            elif self.center_x==100:
+                self.center_y-=100
+                self.center_x=-BUBBLE_MOVEMENT
 
 class X_COSMOS(arcade.Window):
     def __init__(self):
@@ -34,6 +46,14 @@ class X_COSMOS(arcade.Window):
             self.bubble_sprite.center_x=random.randrange(50,950,30)
             self.bubble_sprite.center_y=600
             self.bubble_list.append(self.bubble_sprite)
+
+    def level_3(self):
+        for i in range(50):
+            self.bubble_sprite=LEVEL3("images/Coin.png",0.40)
+            self.bubble_sprite.center_x = random.randrange(50, 950, 30)
+            self.bubble_sprite.center_y = 600
+            self.bubble_list.append(self.bubble_sprite)
+
 
     def setup(self):
         arcade.set_background_color(arcade.color.BLACK)
@@ -92,10 +112,14 @@ class X_COSMOS(arcade.Window):
             if bullet.bottom>WINDOW_HEIGHT:
                 bullet.remove_from_sprite_lists()
                 self.score-=10
-            if len(self.bubble_list)==0:
+            if len(self.bubble_list)==0 and self.level==1:
                 self.level+=1  # Increase the Level
                 self.score=0  # Reset the score
                 self.level_2()
+            elif len(self.bubble_list)==0 and self.level==2:
+                self.level+=1  # Increase the Level
+                self.score=0  # Reset the score
+                self.level_3()
 
 
 
