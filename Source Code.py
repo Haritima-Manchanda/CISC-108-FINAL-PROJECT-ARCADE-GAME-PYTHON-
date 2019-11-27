@@ -14,15 +14,13 @@ class LEVEL2(arcade.Sprite):
 
 class LEVEL3(arcade.Sprite):
     def update(self):
-        #self.center_y=600
-        self.center_x+=BUBBLE_MOVEMENT
-        for i in range(2):
-            if self.center_x==900:
-                self.center_y-=100
-                self.center_x=-BUBBLE_MOVEMENT
-            elif self.center_x==100:
-                self.center_y-=100
-                self.center_x=-BUBBLE_MOVEMENT
+        self.center_x += BUBBLE_MOVEMENT
+        if self.center_x==1000 and self.center_y>=500:
+            self.center_y -=50
+            self.center_x=0
+        elif self.center_x==0 and self.center_y>=500:
+            self.center_y-=50
+            self.center_x==0
 
 class X_COSMOS(arcade.Window):
     def __init__(self):
@@ -51,7 +49,7 @@ class X_COSMOS(arcade.Window):
         for i in range(50):
             self.bubble_sprite=LEVEL3("images/Coin.png",0.40)
             self.bubble_sprite.center_x = random.randrange(50, 950, 30)
-            self.bubble_sprite.center_y = 600
+            self.bubble_sprite.center_y = 750
             self.bubble_list.append(self.bubble_sprite)
 
 
