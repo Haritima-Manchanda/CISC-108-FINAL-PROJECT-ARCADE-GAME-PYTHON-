@@ -6,6 +6,29 @@ GAME_TITLE="X COSMOS"
 BULLET_SPEED=5
 BUBBLE_MOVEMENT=2
 
+
+class InstructionView(arcade.View):
+    def on_show(self):
+        arcade.set_background_color(arcade.color.BLACK)
+    def on_draw(self):
+        arcade.start_render()
+        arcade.draw_text("INSTRUCTIONS SCREEN",500,500,arcade.color.WHITE,40)
+        arcade.draw_text("CLICK TO PLAY",500,400,arcade.color.WHITE,40)
+    def on_mouse_press(self,x,y,button,modifiers):
+        game_view=X_COSMOS()
+        self.window.show_view(game_view)
+
+class MenuView(arcade.View):
+    def on_show(self):
+        arcade.set_background_color(arcade.color.BLACK)
+    def on_draw(self):
+        arcade.start_render()
+        arcade.draw_text("MENU",500,500,arcade.color.WHITE,40)
+        arcade.draw_text("CLICK TO PLAY",500,400,arcade.color.WHITE,40)
+    def on_mouse_press(self,x,y,button,modifiers):
+        instructions_view=InstructionView()
+        self.window.show_view(instructions_view)
+
 class LEVEL2(arcade.Sprite):
     def update(self):
         self.center_x+=BUBBLE_MOVEMENT
@@ -28,8 +51,8 @@ class X_COSMOS(arcade.View):
         super().__init__()
         self.score=0
         self.level=1
-        self.bullet_list=self.collision_list=None
-        self.player_list=self.bubble_list=self.physics_engine=None
+        self.bullet_list=self.collision_list=self.physics_engine=None
+        self.player_list=self.bubble_list=None
 
     def level_1(self):
         self.bubble_list = arcade.SpriteList()
@@ -54,8 +77,8 @@ class X_COSMOS(arcade.View):
             self.bubble_list.append(self.bubble_sprite)
 
 
-    def setup(self):
-        self.physics_engine=None
+    def on_show(self):
+
         arcade.set_background_color(arcade.color.BLACK)
         self.player_list=arcade.SpriteList()
         self.player_sprite = arcade.Sprite("images/character2.png", 1)
@@ -65,7 +88,7 @@ class X_COSMOS(arcade.View):
 
         self.bullet_list=arcade.SpriteList()
         self.level_1()
-        #self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.bubble_list)
+        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.bubble_list)
 
     def on_draw(self):
         arcade.start_render()
@@ -121,27 +144,6 @@ class X_COSMOS(arcade.View):
                 self.score=0  # Reset the score
                 self.level_3()
 
-class InstructionView(arcade.View):
-    def on_show(self):
-        arcade.set_background_color(arcade.color.BLACK)
-    def on_draw(self):
-        arcade.start_render()
-        arcade.draw_text("INSTRUCTIONS SCREEN",500,500,arcade.color.WHITE,40)
-        arcade.draw_text("CLICK TO PLAY",500,400,arcade.color.WHITE,40)
-    def on_mouse_press(self,x,y,button,modifiers):
-        game_view=X_COSMOS()
-        self.window.show_view(game_view)
-
-class MenuView(arcade.View):
-    def on_show(self):
-        arcade.set_background_color(arcade.color.BLACK)
-    def on_draw(self):
-        arcade.start_render()
-        arcade.draw_text("MENU",500,500,arcade.color.WHITE,40)
-        arcade.draw_text("CLICK TO PLAY",500,400,arcade.color.WHITE,40)
-    def on_mouse_press(self,x,y,button,modifiers):
-        instructions_view=InstructionView()
-        self.window.show_view(instructions_view)
 
 def main():
     """ Main method """
