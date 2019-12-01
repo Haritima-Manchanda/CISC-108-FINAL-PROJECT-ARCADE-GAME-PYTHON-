@@ -9,11 +9,17 @@ BUBBLE_MOVEMENT=2
 
 class InstructionView(arcade.View):
     def on_show(self):
-        arcade.set_background_color(arcade.color.BLACK)
+        arcade.set_background_color(arcade.color.RICH_ELECTRIC_BLUE)
+        self.button_sprite=arcade.Sprite("images/lives.png")
+        self.button_list.append(self.button_sprite)
     def on_draw(self):
         arcade.start_render()
-        arcade.draw_text("INSTRUCTIONS SCREEN",500,500,arcade.color.WHITE,40)
+        arcade.draw_text("INSTRUCTIONS",250,900,arcade.color.WHITE,40)
+        arcade.draw_text("Shoot the Bubbles with the help of bullets.",10,800,arcade.color.WHITE,30)
+        arcade.draw_text("The player could move by pressiong the keyboard keys.",10,700,arcade.color.WHITE,30)
+        arcade.draw_text("The bullets will be fired on clicking the upper headed arrow key.",10,600,arcade.color.WHITE,30)
         arcade.draw_text("CLICK TO PLAY",500,400,arcade.color.WHITE,40)
+        #self.button_list.draw()
     def on_mouse_press(self,x,y,button,modifiers):
         game_view=X_COSMOS()
         self.window.show_view(game_view)
@@ -45,6 +51,22 @@ class LEVEL3(arcade.Sprite):
             self.center_y-=50
             self.center_x==0
 
+class LEVEL4(arcade.Sprite):
+    def update(self):
+        self.center_x+=BUBBLE_MOVEMENT
+        self.center_y+=BUBBLE_MOVEMENT
+        if self.center_x>1000:
+            self.center_x=0
+        if self.center_y>1000:
+            self.center_y=0
+
+class LEVEL5(arcade.Sprite):
+    def update(self):
+        self.center_x+=BUBBLE_MOVEMENT
+        if self.center_y<500:
+            self.center_y+=BUBBLE_MOVEMENT
+        else:
+            self.center_y+=BUBBLE_MOVEMENT
 
 class X_COSMOS(arcade.View):
     def __init__(self):
@@ -72,6 +94,20 @@ class X_COSMOS(arcade.View):
     def level_3(self):
         for i in range(50):
             self.bubble_sprite=LEVEL3("images/Coin.png",0.40)
+            self.bubble_sprite.center_x = random.randrange(50, 950, 30)
+            self.bubble_sprite.center_y = 750
+            self.bubble_list.append(self.bubble_sprite)
+
+    def level_4(self):
+        for i in range(50):
+            self.bubble_sprite=LEVEL4("images/Coin.png",0.40)
+            self.bubble_sprite.center_x = random.randrange(50, 950, 30)
+            self.bubble_sprite.center_y = 750
+            self.bubble_list.append(self.bubble_sprite)
+
+    def level_5(self):
+        for i in range(50):
+            self.bubble_sprite = LEVEL5("images/Coin.png", 0.40)
             self.bubble_sprite.center_x = random.randrange(50, 950, 30)
             self.bubble_sprite.center_y = 750
             self.bubble_list.append(self.bubble_sprite)
@@ -135,14 +171,21 @@ class X_COSMOS(arcade.View):
             if bullet.bottom>WINDOW_HEIGHT:
                 bullet.kill()
                 self.score-=10
+
+
             if len(self.bubble_list)==0 and self.level==1:
                 self.level+=1  # Increase the Level
                 self.score=0  # Reset the score
                 self.level_2()
+
             elif len(self.bubble_list)==0 and self.level==2:
                 self.level+=1  # Increase the Level
                 self.score=0  # Reset the score
                 self.level_3()
+            elif len(self.bubble_list)==0 and self.level==3:
+                self.level+=1
+                self.score=0
+                self.level_4()
 
 
 def main():
@@ -151,10 +194,7 @@ def main():
     menu_view=MenuView()
     window.show_view(menu_view)
     arcade.run()
-    """ 
-    window = X_COSMOS()
-    window.setup()
-    arcade.run()"""
+
 
 
 if __name__ == "__main__":
