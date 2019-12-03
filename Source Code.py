@@ -30,12 +30,26 @@ class InstructionView(arcade.View):
         self.window.show_view(game_view)
 
 class MenuView(arcade.View):
+    def __init__(self):
+        super().__init__()
+        self.text=""
+        self.center_x=1000/2
+        self.center_y=1000/2
     def on_show(self):
         arcade.set_background_color(arcade.color.BLACK)
+        self.text_list.append(arcade.gui.Text("Name: ",self.center_x,self.center_y))
+        self.textbox_list.append(arcade.gui.TextBox(self.center_x-125,self.center_y))
+        self.button_list.append(arcade.gui.SubmitButton(self.textbox_list[0],self.on_submit,self.center_x,self.center_y))
     def on_draw(self):
         arcade.start_render()
+        super().on_draw()
+        if self.text:
+            arcade.draw_text(f"Hello {self.text}",400,100,arcade.color.GREEN,24)
         arcade.draw_text("MENU",500,500,arcade.color.WHITE,40)
         arcade.draw_text("CLICK TO PLAY",500,400,arcade.color.WHITE,40)
+    def on_submit(self):
+        self.text=self.textbox_list[0].text_storage.text
+
     def on_mouse_press(self,x,y,button,modifiers):
         instructions_view=InstructionView()
         self.window.show_view(instructions_view)
@@ -71,19 +85,6 @@ class LEVEL5(arcade.Sprite):
         if self.center_x==500:
             self.center_y-=50
             self.center_x=0
-
-class LEVEL6(arcade.Sprite):
-    def update(self):
-        self.center_x+=5
-        if self.center_x>=300:
-            self.center_y+=20
-            self.center_x=100
-
-        #if self.center_y>=900:
-         #   self.center_y=200
-          #  self.center_x=0
-
-
 class X_COSMOS(arcade.View):
     def __init__(self):
         super().__init__()
