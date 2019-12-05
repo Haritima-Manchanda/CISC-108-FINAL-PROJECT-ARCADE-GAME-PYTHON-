@@ -266,13 +266,13 @@ class X_COSMOS(arcade.View):
                 self.time = 0
                 self.level_4()
 
-            elif len(self.bubble_list)==0 and self.level==4 and self.time<=30:
+            elif len(self.bubble_list)==0 and self.level==4 and self.time<=40:
                 self.level+=1
                 self.score=0
                 self.time = 0
                 self.level_5()
 
-            elif len(self.bubble_list)==0 and self.level==6 and self.time<=30:
+            elif len(self.bubble_list)==0 and self.level==6 and self.time<=40:
                 self.level += 1
                 self.score = 0
                 self.time = 0
