@@ -25,20 +25,23 @@ class InstructionView(arcade.View):
     def on_show(self):
         arcade.set_background_color(arcade.color.MAROON)
         self.buttons = arcade.SpriteList()
-        self.button_sprite = arcade.Sprite("images/star.png", 2)
+        self.button_sprite = arcade.Sprite("images/star.png", 0.8)
         self.button_sprite.center_x = 700
-        self.button_sprite.center_y = 300
+        self.button_sprite.center_y = 270
         self.buttons.append(self.button_sprite)
 
     """ Instructions are written to the screen using the arcade.draw_text() function."""
 
     def on_draw(self):
         arcade.start_render()  # CLears the screen to the background color
-        arcade.draw_text("INSTRUCTIONS",250,900,arcade.color.WHITE,40,anchor_x="center")
-        arcade.draw_text("Shoot the Bubbles with the help of bullets.",10,800,arcade.color.WHITE,30)
-        arcade.draw_text("The player could move by pressiong the keyboard keys.",10,700,arcade.color.WHITE,30)
-        arcade.draw_text("The bullets will be fired on clicking the upper headed arrow key.",10,600,arcade.color.WHITE,30)
-        arcade.draw_text("CLICK STAR TO PLAY",500,400,arcade.color.WHITE,40)
+        arcade.draw_text("INSTRUCTIONS",250,900,arcade.color.WHITE,30,anchor_x="center")
+        arcade.draw_text("Shoot the Bubbles with the help of bullets.",10,800,arcade.color.WHITE,15)
+        arcade.draw_text("The player could move by pressiong the keyboard keys.",10,700,arcade.color.WHITE,15)
+        arcade.draw_text("The bullets will be fired on clicking the upper headed arrow key.",10,600,arcade.color.WHITE,15)
+        arcade.draw_text("For first 3 levels you will get 25 sec, otherwise you will not reach the next level.", 10, 500,arcade.color.WHITE,15)
+        arcade.draw_text("For the next 3 levels you will get 40 sec, otherwise you will not reach the next level.", 10,
+                         400, arcade.color.WHITE, 15)
+        arcade.draw_text("CLICK STAR TO PLAY",500,300,arcade.color.WHITE,15)
         self.buttons.draw()
 
     """ On clicking the mouse, the player could move to the game screen as the on_mouse_press function is called."""
@@ -274,19 +277,6 @@ class X_COSMOS(arcade.View):
                 self.score = 0
                 self.time = 0
                 self.level_6()
-
-class GameOverView(arcade.View):
-    def __init__(self):
-        super().__init__()
-    def on_show(self):
-        arcade.set_background_color(arcade.color.MAROON)
-    def on_draw(self):
-        arcade.start_render()
-        arcade.draw_text("Game Over",500,500,arcade.color.WHITE,120)
-        arcade.draw_text("CLICK TO RESTART ",500,300,arcade.color.WHITE,100)
-    def on_mouse_press(self,x,y,button,modifiers):
-        game_view=X_COSMOS()
-        self.window.show_view(game_view)
 
 
 
