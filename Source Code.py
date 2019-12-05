@@ -113,6 +113,14 @@ class LEVEL6(arcade.Sprite):                # LEVEL 6 CREATED
         if self.center_y<400:
             self.center_y=900
 
+class LEVEL7(arcade.Sprite):
+    def update(self):
+        self.center_x-=2.5*BUBBLE_MOVEMENT
+        self.center_y+=2.5*BUBBLE_MOVEMENT
+        if self.center_x<100 and self.center_y>800:
+            self.center_x=950
+            self.center_y=400
+
 
 """This is the main class of the code. All the sprites and the sprite lists are created here.
  Also the game variables are initialized here. The level classes are called here too."""
@@ -169,9 +177,16 @@ class X_COSMOS(arcade.View):
 
     def level_6(self):
         for i in range(30):
-            self.bubble_sprite = LEVEL5("images/Coin.png", 0.40)
+            self.bubble_sprite = LEVEL6("images/Coin.png", 0.40)
             self.bubble_sprite.center_x = random.randrange(100, 950, 30)
             self.bubble_sprite.center_y = random.randrange(400,800,50)
+            self.bubble_list.append(self.bubble_sprite)
+
+    def level_7(self):
+        for i in range(30):
+            self.bubble_sprite = LEVEL7("images/Coin.png", 0.40)
+            self.bubble_sprite.center_x = random.randrange(950,100, -30)
+            self.bubble_sprite.center_y = random.randrange(400,800, 50)
             self.bubble_list.append(self.bubble_sprite)
 
 
@@ -272,14 +287,17 @@ class X_COSMOS(arcade.View):
                 self.time = 0
                 self.level_5()
 
-            elif len(self.bubble_list)==0 and self.level==6 and self.time<=40:
+            elif len(self.bubble_list)==0 and self.level==5 and self.time<=40:
                 self.level += 1
                 self.score = 0
                 self.time = 0
                 self.level_6()
 
-
-
+            elif len(self.bubble_list) == 0 and self.level == 6 and self.time<=40:
+                self.level += 1
+                self.score = 0
+                self.time = 0
+                self.level_7()
 
 def main():
     """ Main method """
