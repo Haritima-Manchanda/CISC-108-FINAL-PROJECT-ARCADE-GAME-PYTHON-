@@ -101,13 +101,13 @@ class LEVEL4(arcade.Sprite):                # LEVEL 4 CREATED
 class LEVEL5(arcade.Sprite):               # LEVEL 5 CREATED
     def update(self):
         self.center_y+=BUBBLE_MOVEMENT     # Updates the center_y of the sprites
-        if self.center_y>900:              # If the center_y exceed the screen height of 900, it resets the center_y to 400
+        if self.center_y>900:
             self.center_y=400
 
 class LEVEL6(arcade.Sprite):                # LEVEL 6 CREATED
     def update(self):
         self.center_y-=BUBBLE_MOVEMENT      # Updates the center_y of the sprites
-        if self.center_y<400:               # if center_y is less than 400, it resets the center_y to 900
+        if self.center_y<400:
             self.center_y=900
 
 
@@ -128,10 +128,13 @@ class X_COSMOS(arcade.View):
     def level_1(self):
         self.bubble_list = arcade.SpriteList()        # Sprite Lists Created
         for i in range(100):
-            self.bubble_sprite = arcade.Sprite("images/Coin.png", 0.40)     # Bubble sprite created
-            self.bubble_sprite.center_x = random.randrange(50, 950, 30)     # center_x and center_y of the bubble sprite are defined. Randrange function of the random module is used.
-            self.bubble_sprite.center_y = 600
+            self.bubble_sprite = arcade.Sprite("images/Coin.png", 0.40)     # Bubble sprite created. Bubble image taken from image folder.
+            self.bubble_sprite.center_x = random.randrange(50, 950, 30)     # center_x and center_y of the bubble sprite are defined.
+            self.bubble_sprite.center_y = 600                               # Randrange function of the random module is used.
             self.bubble_list.append(self.bubble_sprite)                     # Bubble sprite appended to Sprite List
+
+    # Similarly for other level classes different functions have been defined and their sprites have been created separetely
+
 
     def level_2(self):
         for i in range(100):
@@ -171,48 +174,54 @@ class X_COSMOS(arcade.View):
 
     def on_show(self):
 
-        arcade.set_background_color(arcade.color.BLACK)
+        arcade.set_background_color(arcade.color.BLACK)                 # Background color set to Black.
         self.time=0
-        self.player_list=arcade.SpriteList()
-        self.player_sprite = arcade.Sprite("images/character2.png", 1)
-        self.player_sprite.center_x = 250
+        self.player_list=arcade.SpriteList()                            # Player sprite and player sprite list created.
+        self.player_sprite = arcade.Sprite("images/character2.png", 1)  # Player image taken from image folder.
+        self.player_sprite.center_x = 250                               # center_x and center_y of player sprite defined
         self.player_sprite.center_y =270
-        self.player_list.append(self.player_sprite)
+        self.player_list.append(self.player_sprite)                     # Player Sprite appended to Sprite List
 
-        self.bullet_list=arcade.SpriteList()
-        self.level_1()
-        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.bubble_list)
+        self.bullet_list=arcade.SpriteList()                            # Bullet Sprite list Created.
+        self.level_1()                                                  # Level 1 Called
+        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.bubble_list)  # Physics engine used
+
+
+    """ All the sprites are drawn to the screen using the on_draw() function."""
+
 
     def on_draw(self):
         arcade.start_render()
-        minutes=int(self.time)//60
-        seconds=int(self.time)%60
+        minutes=int(self.time)//60                                      # Converts the total time into minutes
+        seconds=int(self.time)%60                                       # Converts the total time to seconds
         output= f"Time: {minutes:02d}:{seconds:02d}"
-        self.player_list.draw()
+        self.player_list.draw()                                         # Sprites are drawn to the screen using the draw function on player, bubble and bullet sprite lists.
         self.bubble_list.draw()
         self.bullet_list.draw()
-        arcade.draw_text(str("SCORE: "),700, 900, arcade.color.WHITE, 40)
+        arcade.draw_text(str("SCORE: "),700, 900, arcade.color.WHITE, 40)       # Score is wriiten to the screen
         arcade.draw_text(str(self.score),900, 900, arcade.color.WHITE, 40)
-        arcade.draw_text(str("LEVEL: "), 700, 800, arcade.color.WHITE, 40)
+        arcade.draw_text(str("LEVEL: "), 700, 800, arcade.color.WHITE, 40)      # Level Number is shown
         arcade.draw_text(str(self.level), 900, 800, arcade.color.WHITE, 40)
         arcade.draw_text(output,100,900,arcade.color.WHITE,40)
 
+    """ User input is provided through keyboard controls, using on_key_press() and on_key_release() functions."""
+
     def on_key_press(self,key,modifiers):
-        if key==arcade.key.RIGHT:
-            if self.player_sprite.center_x<=935:
+        if key==arcade.key.RIGHT:                       # Called when right key is pressed
+            if self.player_sprite.center_x<=935:        # Moves the player Sprite to the right
                 self.player_sprite.change_x=15
-        elif key==arcade.key.LEFT:
-            if self.player_sprite.center_x>=45:
+        elif key==arcade.key.LEFT:                      # Called when left key is pressed
+            if self.player_sprite.center_x>=45:         # Moves the player sprite to the left
                 self.player_sprite.change_x=-15
-        elif key==arcade.key.UP:
-            bullet=arcade.Sprite("images/snake2.png",0.3)
+        elif key==arcade.key.UP:                        # Called when Upper key is pressed
+            bullet=arcade.Sprite("images/snake2.png",0.3) # Bullet sprite is created and fired.
             bullet.change_y=BULLET_SPEED
             bullet.center_x=self.player_sprite.center_x
             bullet.bottom=self.player_sprite.top
             self.bullet_list.append(bullet)
 
 
-    def on_key_release(self,key, modifiers):
+    def on_key_release(self,key, modifiers):            # Called when the key is released
         if key==arcade.key.RIGHT:
             self.player_sprite.change_x=0
         elif key==arcade.key.LEFT:
@@ -223,52 +232,52 @@ class X_COSMOS(arcade.View):
         self.bullet_list.update()
         self.bubble_list.update()
 
-        self.time=self.time+delta_time
+        self.time=self.time+delta_time                  # Calculates the time
 
         for bullet in self.bullet_list:
-            self.collision_list=arcade.check_for_collision_with_list(bullet,self.bubble_list)
+            self.collision_list=arcade.check_for_collision_with_list(bullet,self.bubble_list)       # Checks the collision between bullet and bubbles.
             for bubble in self.collision_list:
-                bullet.kill()
+                bullet.kill()                   # If the collission took, bubble and bullets are removed from the sprite lists
                 bubble.kill()
-                self.score+=1
-            if bullet.bottom>WINDOW_HEIGHT:
-                bullet.kill()
-                self.score-=2
+                self.score+=1                   # Score is increased
+            if bullet.bottom>WINDOW_HEIGHT:     # If the bullet goes beyond the upper boundary of the screen
+                bullet.kill()                   # Bullet removed from the sprite lists
+                self.score-=2                   # If the player wasted a bullet by missing the target, scre is reduced by 2
 
 
-            if len(self.bubble_list)==0 and self.level==1:
-                #if self.time>20:
-                    #self.window.show_view(GameOverView)
-                self.level+=1  # Increase the Level
-                self.score=0  # Reset the score
-                self.time=0 # Reset the time
-                self.level_5()
+            if len(self.bubble_list)==0 and self.level==1 and self.time<=25:  # If all the bubbles of level 1 are shooted within 25 seconds then Level is incremented
+                self.level+=1               # Increase the Level
+                self.score=0                # Reset the score
+                self.time=0                 # Reset the time
+                self.level_2()              # Level 2 Called
 
-            elif len(self.bubble_list)==0 and self.level==2:
-                self.level+=1  # Increase the Level
-                self.score=0 # Reset the score
-                self.time = 0  # Reset the time
+            elif len(self.bubble_list)==0 and self.level==2 and self.time<=25:
+                self.level+=1
+                self.score=0
+                self.time = 0
                 self.level_3()
-            elif len(self.bubble_list)==0 and self.level==3:
+
+            elif len(self.bubble_list)==0 and self.level==3 and self.time<=25:
                 self.level+=1
                 self.score=0
-                self.time = 0  # Reset the time
+                self.time = 0
                 self.level_4()
-            elif len(self.bubble_list)==0 and self.level==4:
+
+            elif len(self.bubble_list)==0 and self.level==4 and self.time<=30:
                 self.level+=1
                 self.score=0
-                self.time = 0  # Reset the time
+                self.time = 0
                 self.level_5()
 
-            elif len(self.bubble_list)==0 and self.level==5:
-                game_over_view=GameOverView()
-                self.window.show_view(game_over_view)
+            elif len(self.bubble_list)==0 and self.level==6 and self.time<=30:
+                self.level += 1
+                self.score = 0
+                self.time = 0
+                self.level_6()
 
 class GameOverView(arcade.View):
     def __init__(self):
         super().__init__()
-        self.center_x=1000/2
-        self.center_y=1000/2
     def on_show(self):
         arcade.set_background_color(arcade.color.MAROON)
     def on_draw(self):
@@ -277,7 +286,7 @@ class GameOverView(arcade.View):
         arcade.draw_text("CLICK TO RESTART ",500,300,arcade.color.WHITE,100)
     def on_mouse_press(self,x,y,button,modifiers):
         game_view=X_COSMOS()
-        self.wiindow.show_view(game_view)
+        self.window.show_view(game_view)
 
 
 
