@@ -23,7 +23,7 @@ No installationa required to play the game.
 Name: Haritima Manchanda 
 E-MAIL: haritima@udel.edu
 ##*ACKNOWLEDGEMENTS and RESOURCES*
-http://arcade.academy/
-https://www.youtube.com/watch?v=DAWHMHMPVHU&ab_channel=PyCon2018
+1. http://arcade.academy/
+2. https://www.youtube.com/watch?v=DAWHMHMPVHU&ab_channel=PyCon2018
 
 
