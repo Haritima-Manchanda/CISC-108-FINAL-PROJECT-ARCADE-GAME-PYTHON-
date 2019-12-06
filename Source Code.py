@@ -6,18 +6,22 @@ import random
 """ Defining Global Variables: width, height, title of the window screen and 
  Bullet and Bubble speeds (speed with which the bubble and the bullet move)."""
 
+
 WINDOW_WIDTH=1000
 WINDOW_HEIGHT=1000
 GAME_TITLE="X COSMOS"
 BULLET_SPEED=5
 BUBBLE_MOVEMENT=2
 
+
 """ Views are used to move between multiple screens.
 Instructions View Class is made which is accessed by the Menu View class.
 Instructions on how to play the game goes here. 
 Also this class is used to access the actual game class: X_Cosmos()"""
 
-class InstructionView(arcade.View):
+
+
+class Instructions(arcade.View):
 
     """ Background color and button_sprites are created.
     Button sprite is the button which the user will click on to move to the actual game."""
@@ -50,7 +54,9 @@ class InstructionView(arcade.View):
         game_view=X_COSMOS()
         self.window.show_view(game_view)
 
-class MenuView(arcade.View):
+
+
+class Menu(arcade.View):
     """ The first screen that appears to the player is the MenuView screen"""
 
     def __init__(self):
@@ -71,16 +77,24 @@ class MenuView(arcade.View):
     """ On clicking the mouse, the player could move to the instructions screen as the on_mouse_press function is called."""
 
     def on_mouse_press(self,x,y,button,modifiers):
-        instructions_view=InstructionView()
-        self.window.show_view(instructions_view)
+        instructions=Instructions()
+        self.window.show_view(instructions)
+
+
+
 
 """ Different classes are created for different levels. Code for diiferent levels goes here."""
+
+
+
 
 class LEVEL2(arcade.Sprite):                # LEVEL 2 CREATED
     def update(self):                       # THe update method updates the center_x.
         self.center_x+=BUBBLE_MOVEMENT
         if self.center_x>1000:
             self.center_x=0                 # Resets the center_x of the sprite to zero as the sprite reaches the boundary.
+
+
 
 class LEVEL3(arcade.Sprite):                # LEVEL 3 CREATED
     def update(self):
@@ -92,6 +106,8 @@ class LEVEL3(arcade.Sprite):                # LEVEL 3 CREATED
             self.center_y-=50                               # # As the sprite reaches beyond the left boundary, its center_x is reset to zero and center_y is decresed by 50 pixels
             self.center_x==0                                # Resets the center_x of the sprite to zero as the sprite reaches the boundary.
 
+
+
 class LEVEL4(arcade.Sprite):                # LEVEL 4 CREATED
     def update(self):
         self.center_x+=BUBBLE_MOVEMENT      # Updates both center_x and center_y of the sprite
@@ -101,17 +117,23 @@ class LEVEL4(arcade.Sprite):                # LEVEL 4 CREATED
         if self.center_y>770:               # If the center_y goes beyond the screen height of 770 pixels, it is reset to 300
             self.center_y=300
 
+
+
 class LEVEL5(arcade.Sprite):               # LEVEL 5 CREATED
     def update(self):
         self.center_y+=BUBBLE_MOVEMENT     # Updates the center_y of the sprites
         if self.center_y>900:
             self.center_y=400
 
+
+
 class LEVEL6(arcade.Sprite):                # LEVEL 6 CREATED
     def update(self):
         self.center_y-=BUBBLE_MOVEMENT      # Updates the center_y of the sprites
         if self.center_y<400:
             self.center_y=900
+
+
 
 class LEVEL7(arcade.Sprite):
     def update(self):
@@ -124,6 +146,8 @@ class LEVEL7(arcade.Sprite):
 
 """This is the main class of the code. All the sprites and the sprite lists are created here.
  Also the game variables are initialized here. The level classes are called here too."""
+
+
 
 class X_COSMOS(arcade.View):
     def __init__(self):
@@ -220,7 +244,7 @@ class X_COSMOS(arcade.View):
         arcade.draw_text(str(self.score),900, 900, arcade.color.WHITE, 40)
         arcade.draw_text(str("LEVEL: "), 700, 800, arcade.color.WHITE, 40)      # Level Number is shown
         arcade.draw_text(str(self.level), 900, 800, arcade.color.WHITE, 40)
-        arcade.draw_text(output,100,900,arcade.color.WHITE,40)
+        arcade.draw_text(output, 100, 900, arcade.color.WHITE, 40)
 
     """ User input is provided through keyboard controls, using on_key_press() and on_key_release() functions."""
 
@@ -263,47 +287,70 @@ class X_COSMOS(arcade.View):
                 self.score-=2                   # If the player wasted a bullet by missing the target, scre is reduced by 2
 
 
-            if len(self.bubble_list)==0 and self.level==1 and self.time<=25:  # If all the bubbles of level 1 are shooted within 25 seconds then Level is incremented
+            if len(self.bubble_list)==0 and self.level==1 :  # If all the bubbles of level 1 are shooted within 25 seconds then Level is incremented
                 self.level+=1               # Increase the Level
                 self.score=0                # Reset the score
                 self.time=0                 # Reset the time
                 self.level_2()              # Level 2 Called
 
-            elif len(self.bubble_list)==0 and self.level==2 and self.time<=25:
+
+            elif len(self.bubble_list)==0 and self.level==2 :
                 self.level+=1
                 self.score=0
                 self.time = 0
                 self.level_3()
 
-            elif len(self.bubble_list)==0 and self.level==3 and self.time<=25:
+            elif len(self.bubble_list)==0 and self.level==3 :
                 self.level+=1
                 self.score=0
                 self.time = 0
                 self.level_4()
 
-            elif len(self.bubble_list)==0 and self.level==4 and self.time<=40:
+            elif len(self.bubble_list)==0 and self.level==4 :
                 self.level+=1
                 self.score=0
                 self.time = 0
                 self.level_5()
 
-            elif len(self.bubble_list)==0 and self.level==5 and self.time<=40:
+            elif len(self.bubble_list)==0 and self.level==5 :
                 self.level += 1
                 self.score = 0
                 self.time = 0
                 self.level_6()
 
-            elif len(self.bubble_list) == 0 and self.level == 6 and self.time<=40:
+            elif len(self.bubble_list) == 0 and self.level == 6 :
                 self.level += 1
                 self.score = 0
                 self.time = 0
                 self.level_7()
 
+            if  len(self.bubble_list)==0 and self.level==7:
+                game_over_view=GameOverView()
+                game_over_view.time_taken=self.time
+                self.window.show_view(game_over_view)
+
+"""Game Over Screen Created"""
+class GameOverView(arcade.View):
+    def __init__(self):
+        super().__init__()
+
+    def on_show(self):
+        arcade.set_background_color(arcade.color.BLACK)
+
+    def on_draw(self):
+        arcade.start_render()
+        arcade.draw_text("Game Over", 240, 400, arcade.color.WHITE, 120,anchor_x="center")
+
+        time_taken_formatted = f"{round(self.time_taken, 2)} seconds"
+        arcade.draw_text(f"Time taken: {time_taken_formatted}",500,200,arcade.color.WHITE,font_size=15,anchor_x="center")
+
+
+
 def main():
     """ Main method """
     window=arcade.Window(WINDOW_WIDTH,WINDOW_HEIGHT,GAME_TITLE)
-    menu_view=MenuView()
-    window.show_view(menu_view)
+    menu=Menu()
+    window.show_view(menu)
     arcade.run()
 
 
